@@ -3,63 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux Simulator (TDs) - Yassine</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <title>Linux V30</title>
+    <link rel="icon" href="https://preview.redd.it/created-a-linux-version-of-my-previous-wallpaper-3840-x-2160-v0-en12fj7x5of91.png?width=1080&crop=smart&auto=webp&s=1d581ad3dba201494815fa87a6ac989ddd63dedd">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="main-container">
-        <div id="sidebar">
-            <div class="sidebar-header">
-                <h2>🐧 Linux TDs</h2>
-                <div class="user-badge">User: Yassine Ezher</div>
-            </div>
-            
-            <div class="chapter-display">
-                <h4 id="chapter-title">TD1 : GESTION FICHIERS</h4>
-                <div class="progress-container">
-                    <div class="progress-bar" id="chapter-progress"></div>
-                </div>
-            </div>
 
-            <div class="mission-box">
-                <h3>🎯 Exercice en cours :</h3>
-                <p id="mission-text">Chargement...</p>
-            </div>
-
-            <div class="controls-box">
-                <button onclick="saveProgress()" class="btn-save">💾 Sauver</button>
-                <button onclick="resetProgress()" class="btn-reset">↺ Reset</button>
-            </div>
-            
-            <div class="help-box">
-                <button onclick="showHint()" class="btn-hint">💡 Indice</button>
-                <button onclick="solveMission()" class="btn-solve">🔑 Solution</button>
-                <p id="hint-display"></p>
-            </div>
+    <div id="login-layer" class="overlay">
+        <div class="box-login">
+            <h2>LOGIN</h2>
+            <input type="text" id="username" placeholder="user" autocomplete="off">
+            <button class="btn-login" onclick="startSession()">ENTER</button>
         </div>
+    </div>
 
-        <div id="terminal-window">
-            <div class="terminal-header">
-                <div class="buttons"><span class="close"></span><span class="minimize"></span><span class="maximize"></span></div>
-                <div class="title">yassine@ubuntu: ~/sandbox</div>
+    <div id="distro-layer" class="overlay hidden">
+        <h2>SELECT SYSTEM</h2>
+        <div class="distro-grid">
+            <div class="card" onclick="boot('ubuntu')" onmouseenter="previewBg('ubuntu')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/UbuntuCoF.svg/2048px-UbuntuCoF.svg.png">
+                <h3>UBUNTU</h3>
             </div>
-            
-            <div class="terminal-body" id="terminal-output">
-                <div class="welcome-msg">
-                    Welcome to Ubuntu 22.04 LTS (Simulator).<br>
-                    Basé sur les fichiers: TD1, TD2, TD3, TP4, TD5.<br>
-                    <br>
-                    <span class="green-text">Système prêt. Tapez vos commandes !</span><br><br>
-                </div>
-                
-                <div class="input-line">
-                    <span class="prompt-user">yassine@ubuntu</span>:<span class="prompt-path" id="display-path">~/sandbox</span>$ 
-                    <input type="text" id="cmd-input" autocomplete="off" autofocus>
-                </div>
+            <div class="card" onclick="boot('kali')" onmouseenter="previewBg('kali')">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJwgMZUJAvAFdnrHOUBRkgT-NwPlmHequy6Q&s">
+                <h3>KALI</h3>
+            </div>
+            <div class="card" onclick="boot('arch')" onmouseenter="previewBg('arch')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Arch_Linux_%22Crystal%22_icon.svg/2048px-Arch_Linux_%22Crystal%22_icon.svg.png">
+                <h3>ARCH</h3>
             </div>
         </div>
     </div>
-    <script src="js.js"></script>
+
+    <div id="app" class="hidden">
+        <aside>
+            <div class="head">
+                <img id="logo" src="">
+                <div>
+                    <h3 id="os-title">LINUX</h3>
+                    <small id="user-display">Guest</small>
+                </div>
+            </div>
+
+            <div class="nav-list">
+                <h4>📚 MODULES</h4>
+                <ul id="td-list"></ul>
+            </div>
+
+            <div class="mission-panel">
+                <div class="timer">⏱️ <span id="timer">00:00</span></div>
+                <div class="progress-bg"><div id="bar"></div></div>
+                <h4 id="chapter-title">TD1</h4>
+                <div class="mission-box">
+                    <strong>🎯 MISSION:</strong>
+                    <p id="objective">Chargement...</p>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn save" onclick="saveData()">💾 SAVE</button>
+                <div class="btn-row">
+                    <button class="btn hint" onclick="showHint()">💡 HINT</button>
+                    <button class="btn solve" onclick="solve()">🔑 SOLVE</button>
+                </div>
+                <button class="btn reset" onclick="resetAll()">↺ RESET</button>
+                <div id="msg"></div>
+            </div>
+        </aside>
+
+        <main id="terminal" onclick="focusInput()">
+            <div id="terminal-content">
+                <div id="history"></div>
+                
+                <div id="kali-header" class="hidden"></div>
+                
+                <div id="input-row">
+                    <span id="prompt-text"></span>
+                    <input type="text" id="cmd" autocomplete="off" spellcheck="false">
+                </div>
+            </div>
+        </main>
+    </div>
+
 </body>
 </html>
