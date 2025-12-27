@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux V42 - Scroll Fix</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+</head>
+<body>
+
+    <div id="player-wrapper" style="position: fixed; bottom: 0; right: 0; width: 1px; height: 1px; opacity: 0.01; z-index: -10; pointer-events: none;">
+        <iframe id="sc-widget" 
+                width="100%" 
+                height="166" 
+                scrolling="no" 
+                frameborder="no" 
+                allow="autoplay" 
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/lucas-shearer-913642639/sets/minecraft-soundtrack-disc&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
+        </iframe>
+    </div>
+
+    <div id="login-layer" class="overlay">
+        <div class="glass-card">
+            <h2>AUTHENTIFICATION</h2>
+            <p>Linexr- V6.02 Update</p>
+            <input type="text" id="username" class="login-input" placeholder="User (ex: etudiant)" autocomplete="off">
+            <button class="login-btn" onclick="startSession()">START</button>
+        </div>
+    </div>
+
+    <div id="distro-layer" class="overlay hidden">
+        <h2>CHOISIR SYSTÈME</h2>
+        <div class="distro-grid">
+            <div class="d-card" onclick="boot('ubuntu')" onmouseenter="previewBg('ubuntu')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/UbuntuCoF.svg/2048px-UbuntuCoF.svg.png">
+                <h3>Ubuntu</h3>
+            </div>
+            <div class="d-card" onclick="boot('kali')" onmouseenter="previewBg('kali')">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJwgMZUJAvAFdnrHOUBRkgT-NwPlmHequy6Q&s">
+                <h3>Kali</h3>
+            </div>
+            <div class="d-card" onclick="boot('arch')" onmouseenter="previewBg('arch')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Arch_Linux_%22Crystal%22_icon.svg/2048px-Arch_Linux_%22Crystal%22_icon.svg.png">
+                <h3>Arch</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <aside id="sidebar">
+            <div class="head">
+                <img id="logo" src="">
+                <div>
+                    <h3 id="os-title">OS</h3>
+                    <small id="user-display">user</small>
+                </div>
+            </div>
+
+            <div class="dev-badge">
+                <span>DEVELOPER:</span>
+                <strong>EZHER</strong> <span class="tick"></span>
+            </div>
+
+            <div class="nav-section">
+                <h4>📋 TD LIST</h4>
+                <ul id="td-list"></ul>
+            </div>
+
+            <div class="mission-panel">
+                <div class="timer">⏱️ <span id="timer">00:00</span></div>
+                <div class="progress-track"><div id="bar"></div></div>
+                <h4 id="chapter-title">...</h4>
+                <div class="mission-box">
+                    <strong>🎯 MISSION :</strong>
+                    <p id="objective">Chargement...</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn save" onclick="saveData()">💾 SAUVER</button>
+                <div class="btn-row">
+                    <button class="btn hint" onclick="showHint()">💡 AIDE</button>
+                    <button class="btn solve" onclick="solve()">🔑 SOLUCE</button>
+                </div>
+                <button class="btn reset" onclick="resetAll()">↺ RESET</button>
+                <button class="btn music-btn" onclick="toggleMusic()">🔊 MUSIC</button>
+                <div id="msg"></div>
+            </div>
+        </aside>
+
+        <main id="term" onclick="focusInput()">
+            <div id="terminal-content">
+                <div id="history"></div>
+                <div id="kali-header" class="hidden" style="margin-bottom:2px;"></div>
+                <div class="prompt-row">
+                    <span id="prompt-text"></span>
+                    <input type="text" id="cmd" class="cmd-input" autocomplete="off" spellcheck="false">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
